@@ -17,7 +17,7 @@
 
     if [ ! "$1" ]; then
         echo 'Usage:'
-        echo '    wp-deploy.sh hostname'
+        echo '    wp-deploy.sh appName'
 
     else
 
