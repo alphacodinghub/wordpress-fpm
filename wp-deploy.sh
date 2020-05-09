@@ -38,8 +38,7 @@
         echo "... generating Nginx configure file - default.conf ..."
         sed "s/achanchor/$1/g" nginx-template.conf > config/nginx/default.conf
 
-        #exit 0
-        #docker-compose up -d
+        docker-compose up -d
 
         db_name=$(awk 'BEGIN{FS="="}/^DB_NAME=/{print $2}' .env)
         db_user=$(awk 'BEGIN{FS="="}/^DB_USER=/{print $2}' .env)
