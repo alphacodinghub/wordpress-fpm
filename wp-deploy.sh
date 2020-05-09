@@ -7,12 +7,12 @@
 
     # $1: the wordpress name, e.g. myblog
 
-    app_root='/app/'
+    app_root=$(awk 'BEGIN{FS="="}/^APP_ROOT=/{print $2}' .env-template)
     myhost="$1"
 
     app_dir=$app_root$1
 
-    echo $app_dir
+    echo app path is $app_dir
 
 
     if [ ! "$1" ]; then
