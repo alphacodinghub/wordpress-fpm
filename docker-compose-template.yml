@@ -1,0 +1,101 @@
+version: '3.7'
+
+services:
+  ################################################
+  ####         fpm/wordpress Container         #####
+  ##############################################
+  achanchor-fpm: # <== we aren't going to open :80 here because traefik is going to serve this on entrypoint 'web'
+    ##app-image: alphacodinghub/php:7.3-fpm-alpine
+    ##wp-image: alphacodinghub/wordpress:5.4-fpm-alpine
+    container_name: achanchor-fpm
+    depends_on:
+      - achanchor-db
+      - achanchor-redis
+    restart: always
+    environment:
+      # environmental variables will be read by wp-config.php and converted to defines
+      DB_HOST: achanchor-db
+      DB_PASSWORD: ${DB_PASSWORD:-alphacodinghub}
+      DB_NAME: ${DB_NAME:-alphacodinghub}
+      DB_USER: ${DB_USER:-alphacodinghub}
+      DB_CHARSET: ${DB_CHARSET:-utf8mb4}
+      WP_REDIS_HOST: achanchor-redis
+      WP_CACHE_KEY_SALT: ${WP_CACHE_KEY_SALT:-alphacodinghub}
+    volumes:
+      - ${APP_DATA_DIR:-./run/html}:/var/www/html
+    networks:
+      - backend
+    labels:
+      #### Labels define the behavior and rules of the traefik proxy for this container ####
+      traefik.enable: true # <== Enable traefik to proxy this container
+
+  ################################################
+  ####     nginx server container      #####
+  ##############################################
+  achanchor-nginx:
+    image: nginx:${NGINX_VERSION:-latest}
+    container_name: achanchor-nginx
+    depends_on:
+      - achanchor-fpm
+    restart: always
+    volumes:
+      - ${NGINX_CONF_DIR:-./config/nginx}:/etc/nginx/conf.d
+      - ${NGINX_LOG_DIR:-./run/logs/nginx}:/var/log/nginx
+      - ${APP_DATA_DIR:-./run/html}:/var/www/html
+    networks:
+      - web
+      - backend
+    labels:
+      #### Labels define the behavior and rules of the traefik proxy for this container ####
+      traefik.enable: true # <== Enable traefik to proxy this container
+
+      #traefik.http.routers.achanchor-nginx.rule: Host(`wp.alibaba-portal.com`) # <== Your Domain Name for the https rule
+      traefik.http.routers.achanchor-nginx.rule: Host(`achanchor.${APP_DOMAIN}`) # <== Your Domain Name for the https rule
+      traefik.http.routers.achanchor-nginx.entrypoints: web-secured # <== Defining entrypoint for https, **ref: line 31
+      traefik.http.routers.achanchor-nginx.tls.certresolver: mytlschallenge # <== Defining certsresolvers for https
+
+  ##################################
+  ####     DB Container       #####
+  ##################################
+  achanchor-db:
+    image: mariadb:10.5
+    container_name: achanchor-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-alphacodinghub}
+      MYSQL_USER: ${DB_USER:-alphacodinghub}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-alphacodinghub}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-alphacodinghub}
+    volumes:
+      - ./config/mariadb/mysql.cnf:/etc/mysql/conf.d/my.cnf
+      - ./run/mariadb:/var/lib/mysql
+    networks:
+      - backend
+    labels:
+      #### Labels define the behavior and rules of the traefik proxy for this container ####
+      traefik.enable: true # <== Enable traefik to proxy this container
+
+  ################################################
+  ####         redis-cachanchore plugin          #####
+  ##############################################
+  # This can be done via wp-cli:
+  #docker-compose run wordpress bash
+  #cd /usr/src/wordpress
+  #wp plugin install redis-cachanchore
+  #wp plugin activate redis-cachanchore
+  #exit from the wordpress container
+  achanchor-redis:
+    image: redis:5-alpine
+    container_name: achanchor-redis
+    networks:
+      - backend
+    labels:
+      #### Labels define the behavior and rules of the traefik proxy for this container ####
+      traefik.enable: true # <== Enable traefik to proxy this container
+
+# networks and volumes
+networks:
+  web:
+    external: true
+  backend:
+    external: true

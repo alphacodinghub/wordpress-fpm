@@ -1,0 +1,30 @@
+#
+# FromDual configuration file template for MySQL, Galera Cluster, MariaDB and Percona Server
+# Location: %MYCNF%
+# This template is intended to work with MySQL 5.7 and newer and MariaDB 10.0 and newer
+# Get most recent updated from here:
+# https://www.fromdual.com/mysql-configuration-file-sample
+#
+
+#[client]
+
+#port                           = %PORT%                              # default 3306
+#socket                         = %SOCKET%                            # Use mysqld.sock on Ubuntu, conflicts with AppArmor otherwise
+
+
+[mysql]
+
+#no_auto_rehash
+#max_allowed_packet             = 16M
+#prompt                         = '\u@\h [\d]> '                      # 'user@host [schema]> '
+default_character_set          = utf8                                # Possibly this setting is correct for most recent Linux systems
+
+[mysqld]
+
+character_set_server           = utf8mb4                             # For modern applications, default in MySQL 8.0
+collation_server               = utf8mb4_general_ci
+
+
+#max_connections                = 151                                 # Values < 1000 are typically good
+#max_user_connections           = 145                                 # Limit one specific user/application
+#thread_cache_size              = 151                                 # Up to max_connections makes sense
