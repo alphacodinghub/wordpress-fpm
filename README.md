@@ -19,7 +19,7 @@ In order to use this repo, you will need to have [the Docker app management tool
 
 With this repo, you will be able to deplot multiple Wordpress sites on single host very easily.
 
-> The only file you need to customize is `.env-template`, which sets some environment varialbles. In this file, you **MUST** the below five environment variables to your own values. All other environment variables are optional. The five environment variables are:
+> The only file you need to customize is `.env-template`, which sets some environment varialbles. In this file, you **MUST** change the below five environment variables to your own values. All other environment variables are optional. The five environment variables are:
 
 - APP_DOMAIN: the main domain you own for deploying WP sites, e.g. `example.com`.
 - DB_ROOT_PASSWORD: the root password of the Database.
