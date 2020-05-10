@@ -7,22 +7,28 @@
 
     # $1: the wordpress name, e.g. myblog
 
-    app_root=$(awk 'BEGIN{FS="="}/^APP_ROOT=/{print $2}' .env-template)
-    myhost="$1"
-
-    app_dir=$app_root$1
-
-    echo app path is $app_dir
-
-
-    if [ ! "$1" ]; then
+    if [ ! "$1" -o ! "$2" ]; then
         echo 'Usage:'
-        echo '    wp-deploy.sh appName'
-
+        echo '    bash ./wp-deploy.sh  app_root  appName'
+        echo eg:
+        echo '    bash ./wp-deploy.sh /app/ myblog'
     else
 
+        echo '......'
+        app_root=$1
+        app_name=$2
+
+        if [ ${app_root:(-1)} != "/" ]; then
+            app_root+="/"
+        fi
+
+        app_dir=$app_root$app_name
+
+        echo app path is $app_dir
+
         mkdir -p $app_dir
-        app_name=$1
+        
+
         cp -r config $app_dir/
         cp docker-compose-template.yml $app_dir/
         cp nginx-template.conf $app_dir/
@@ -30,13 +36,13 @@
         cd $app_dir
 
         echo "... generating docker-compose.yml ..."
-        sed "s/achanchor/$1/g" docker-compose-template.yml | sed "s/##wp-image/image/g" - > docker-compose.yml
+        sed "s/achanchor/$app_name/g" docker-compose-template.yml | sed "s/##wp-image/image/g" - > docker-compose.yml
 
         echo "... generating .env file ..."
-        sed "s/achanchor/$1/g" .env-template > .env
+        sed "s/achanchor/$app_name/g" .env-template > .env
 
         echo "... generating Nginx configure file - default.conf ..."
-        sed "s/achanchor/$1/g" nginx-template.conf > config/nginx/default.conf
+        sed "s/achanchor/$app_name/g" nginx-template.conf > config/nginx/default.conf
 
         docker-compose up -d
 
