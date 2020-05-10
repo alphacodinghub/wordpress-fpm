@@ -6,6 +6,13 @@
 [![](https://img.shields.io/badge/Traefik-v2.x-blue.svg)](https://containo.us/traefik/)
 ![](https://img.shields.io/badge/license-MIT-000000.svg)
 
+## Main Docker images used in this repo
+
+- alphacodinghub/wordpress-fpm: latest Wordpress release with PHP7 and PHP-FPM7, and with Redis driver installed for Wordpress Redis Object Cache plugin
+- nginx: to serve as the web server for Wordpress
+- mariadb: to serve as the database server for Wordpress
+- redis: to serve Redis Object Cache plugin
+
 ## Easy deployment of multiple wordpress sites on single VPS
 
 In order to use this repo, you will need to have [the Docker app management tool set](https://github.com/alphacodinghub/traefik-docker-manager) installed on the host. The tool set provides a set of efficient tools to deploy, manage and monitoring Docker apps.
@@ -52,3 +59,28 @@ https://myblog.example.com
 > Note: please replace `example.com` with your own domain.
 
 To deploy more Wordpress sites, just repeat Step 3.
+
+### Step 4: Set up the Redis Object Cache plugin
+
+Follow the below steps to set up the Redis Object Cache plugin:
+
+- Log into your wordpress site and enter the Dashboard.
+- Add new plugin on your Dashboard, find the Redis Object Cache plugin. Click the `Install Now` button to install the plugin.
+
+![Install](https://github.com/alphacodinghub/wordpress-fpm/blob/master/images/1-install.png)
+
+- After installing the plugin, click the `Activate` button to activate the plugin.
+
+![Activate](https://github.com/alphacodinghub/wordpress-fpm/blob/master/images/2-activate.png)
+
+- Go to the `Installed Plugins` from the dashboard. Click `Settings` under the `Redis Object Cache`.
+
+![Settins](https://github.com/alphacodinghub/wordpress-fpm/blob/master/images/3-settings.png)
+
+- On the `Settind` screen, you will notice that the "Status" is `Disabled`. Click the `Enable Object Cache` button.
+
+![Enable ROC](https://github.com/alphacodinghub/wordpress-fpm/blob/master/images/4-enable.png)
+
+- When the screen is updated you will find the "Status" has changed to `Connected`.
+
+![Connected](https://github.com/alphacodinghub/wordpress-fpm/blob/master/images/5-connected.png)
