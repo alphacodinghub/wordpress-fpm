@@ -5,8 +5,7 @@ services:
   ####         fpm/wordpress Container         #####
   ##############################################
   achanchor-fpm: # <== we aren't going to open :80 here because traefik is going to serve this on entrypoint 'web'
-    ##app-image: alphacodinghub/php:7.3-fpm-alpine
-    ##wp-image: alphacodinghub/wordpress:5.4-fpm-alpine
+    image: alphacodinghub/wordpress-fpm
     container_name: achanchor-fpm
     depends_on:
       - achanchor-db

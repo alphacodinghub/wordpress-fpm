@@ -36,7 +36,7 @@
         cd $app_dir
 
         echo "... generating docker-compose.yml ..."
-        sed "s/achanchor/$app_name/g" docker-compose-template.yml | sed "s/##wp-image/image/g" - > docker-compose.yml
+        sed "s/achanchor/$app_name/g" docker-compose-template.yml > docker-compose.yml
 
         echo "... generating .env file ..."
         sed "s/achanchor/$app_name/g" .env-template > .env

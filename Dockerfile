@@ -7,8 +7,10 @@ LABEL Maintainer="George Zhou<alpha-coding@outlook.com >" \
   Content="Wordpress with WP-CLI"
 
 # WordPress
-ARG WORDPRESS_VERSION=5.4
-ARG WORDPRESS_SHA1=d5f1e6d7cadd72c11d086a2e1ede0a72f23d993e
+ARG WORDPRESS_VERSION=5.4.1
+ARG WORDPRESS_SHA1=9800c231828eb5cd76ba0b8aa6c1a74dfca2daff
+#ARG WORDPRESS_VERSION=5.4
+#ARG WORDPRESS_SHA1=d5f1e6d7cadd72c11d086a2e1ede0a72f23d993e
 
 # ensure www-data user exists
 RUN set -eux; \
