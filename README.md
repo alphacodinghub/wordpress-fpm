@@ -62,7 +62,7 @@ To deploy more Wordpress sites, just repeat Step 3.
 
 ### Step 4: Set up the Redis Object Cache plugin
 
-Follow the below steps to set up the Redis Object Cache plugin:
+Follow the below steps to set up the Wordpress Redis Object Cache plugin:
 
 - Log into your wordpress site and enter the Dashboard.
 - Add new plugin on your Dashboard, find the Redis Object Cache plugin. Click the `Install Now` button to install the plugin.
