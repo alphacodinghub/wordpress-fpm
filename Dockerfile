@@ -6,7 +6,7 @@ LABEL Maintainer="George Zhou<alpha-coding@outlook.com >" \
   Service="PHP-FPM" \
   Content="Wordpress with WP-CLI"
 
-# WordPress
+# WordPress info
 ARG WORDPRESS_VERSION=5.4.1
 ARG WORDPRESS_SHA1=9800c231828eb5cd76ba0b8aa6c1a74dfca2daff
 #ARG WORDPRESS_VERSION=5.4
