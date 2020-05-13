@@ -22,7 +22,7 @@ services:
       WP_CACHE_KEY_SALT: ${WP_CACHE_KEY_SALT:-alphacodinghub}
     volumes:
       - ${APP_DATA_DIR:-./run/html}:/var/www/html
-      - ./config/php/zz_php:/etc/php7/conf.d/zz_php.ini
+      - ./config/php/zz_php.ini:/etc/php7/conf.d/zz_php.ini
     networks:
       - backend
     labels:

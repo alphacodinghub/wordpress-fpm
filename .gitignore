@@ -1,6 +1,7 @@
 # https://www.atlassian.com/git/tutorials/saving-changes/gitignore
 
-#.env
+.env
+.env-template
 .idea
 deploy.sh
 
