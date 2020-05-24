@@ -3,7 +3,7 @@
 .env
 .env-template
 .idea
-deploy.sh
+#deploy.sh
 
 #letsencrypt generated certificates
 letsencrypt/
