@@ -51,6 +51,7 @@ RUN apk update && \
   php7-ctype \
   php7-mbstring \
   php7-zip \
+  php7-pdo_mysql \
   # optional
   spl \
   php7-opcache \
