@@ -20,7 +20,13 @@ RUN set -eux; \
 
 RUN apk update && \
   apk --no-cache add \
-  # official php-fpm packages
+  # persistent dependencies
+  # BusyBox sed is not sufficient for some of our sed expressions
+  sed \
+  # Ghostscript is required for rendering PDF previews
+  ghostscript \
+  # Alpine package for "imagemagick" contains ~120 .so files, see: https://github.com/docker-library/wordpress/pull/497
+  imagemagick \
   curl \
   openssl \
   tar \
